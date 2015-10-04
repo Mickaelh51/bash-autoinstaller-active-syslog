@@ -21,6 +21,15 @@ but with this patch, you can see:
 Sep 20 20:12:49 -bash: HISTORY: PID=1722 LOGIN=toto COMMAND=cat /var/log/syslog
 ```
 
+Before (with sudo -s ==> root):
+```
+HISTORY: PID=12556 UID=0 ifconfig
+```
+
+After patched (with sudo -s ==> root):
+```
+HISTORY: PID=12786 LOGIN=mickael COMMAND=ifconfig
+```
 
 ### Tested versions ###
 * Debian wheezy 32bits
