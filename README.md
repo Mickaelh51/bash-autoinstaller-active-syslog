@@ -11,17 +11,13 @@ Ex: You login on SSH with your user (toto), You must switch to root to work (sud
 No patch you can see in log:
 
 ```
-#!shell
-
-Sep 20 20:12:49 -bash: HISTORY: PID=1722 PID=0 cat /var/log/syslog
+Sep 20 20:12:49 -bash: HISTORY: PID=1722 UID=0 cat /var/log/syslog
 ```
 
 
 but with this patch, you can see:
 
 ```
-#!shell
-
 Sep 20 20:12:49 -bash: HISTORY: PID=1722 LOGIN=toto COMMAND=cat /var/log/syslog
 ```
 
