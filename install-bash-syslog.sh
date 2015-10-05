@@ -8,10 +8,14 @@ MINVER=${BASH_VERSINFO[1]}
 platform='unknown'
 download='wget --no-check-certificate'
 unamestr=`uname`
+version="4.3"
+nodotversion="43"
+
 
 #CHANGE FOR THE YOURS
 IPSYSLOG='127.0.0.1'
 BASHPRINT='MIKA'
+lastpatch="42"
 #####################
 
 if [[ "$unamestr" == 'Linux' ]]; then
@@ -56,6 +60,16 @@ else
 	TARFILE=bash-4.3.30.tar.gz
 	$download "https://ftp.gnu.org/gnu/bash/$TARFILE"
 	tar -xzvf $TARFILE
+
+  printf "Download all patchs bash version 4.3 from ftp.gnu.org\n"
+  for i in `seq 1 $lastpatch`;
+  do
+    number=$(printf %02d $i)
+    file="https://ftp.gnu.org/pub/gnu/bash/bash-${version}-patches/bash${nodotversion}-0$number"
+    echo $file
+    curl -k $file | patch -N -p0
+  done
+
 
 	printf "Patch new bash version\n"
 	patch bash-4.3.30/config-top.h config-top_syslog.patch
