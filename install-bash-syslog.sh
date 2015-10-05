@@ -10,6 +10,7 @@ download='wget --no-check-certificate'
 unamestr=`uname`
 version="4.3"
 nodotversion="43"
+firstpatch="31"
 
 
 #CHANGE FOR THE YOURS
@@ -61,8 +62,9 @@ else
 	$download "https://ftp.gnu.org/gnu/bash/$TARFILE"
 	tar -xzvf $TARFILE
 
+  cd bash-4.3.30/
   printf "Download all patchs bash version 4.3 from ftp.gnu.org\n"
-  for i in `seq 1 $lastpatch`;
+  for i in `seq $firstpatch $lastpatch`;
   do
     number=$(printf %02d $i)
     file="https://ftp.gnu.org/pub/gnu/bash/bash-${version}-patches/bash${nodotversion}-0$number"
@@ -70,7 +72,7 @@ else
     curl -k $file | patch -N -p0
   done
 
-
+  cd ..
 	printf "Patch new bash version\n"
 	patch bash-4.3.30/config-top.h config-top_syslog.patch
 	patch bash-4.3.30/bashhist.c bashhist_syslog.patch
