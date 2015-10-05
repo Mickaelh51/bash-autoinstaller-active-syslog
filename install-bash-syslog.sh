@@ -13,9 +13,9 @@ nodotversion="43"
 firstpatch="31"
 
 
-#CHANGE FOR THE YOURS
+#CHANGE FOR YOURS INFORMATIONS
 IPSYSLOG='127.0.0.1'
-BASHPRINT='MIKA'
+BASHPRINT='MIKA' #GNU bash (MIKA), version 4.3.42(1)-release (i686-pc-linux-gnu)
 lastpatch="42"
 #####################
 
