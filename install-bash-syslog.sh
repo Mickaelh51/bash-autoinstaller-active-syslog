@@ -64,6 +64,7 @@ else
 
   cd bash-4.3.30/
   printf "Download all patchs bash version 4.3 from ftp.gnu.org\n"
+  #source: http://www.stevejenkins.com/blog/2014/09/how-to-manually-update-bash-to-patch-shellshock-bug-on-older-fedora-based-systems/
   for i in `seq $firstpatch $lastpatch`;
   do
     number=$(printf %02d $i)
