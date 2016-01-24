@@ -1,6 +1,6 @@
 # README #
 
-Installer for patch bash 4.3.30 with syslog module
+Installer for patch bash 4.3.30 with syslog module and be able to **show the real username**
 
 ### What is this repository for? ###
 Active syslog module in bash 4.3.30.
