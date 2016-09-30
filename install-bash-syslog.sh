@@ -95,7 +95,7 @@ else
 	cp bash $OLDVERNAME-OLD
 
   echo "user.*  -/var/log/tracecommands.log
-	user.*   @$IPSYSLOG:514;GRAYLOGRFC5424" > "$syslogconf/tracecommands"
+	user.*   @$IPSYSLOG:514;GRAYLOGRFC5424" > "$syslogconf/tracecommands.conf"
 
   echo "/var/log/tracecommands.log {
         daily
