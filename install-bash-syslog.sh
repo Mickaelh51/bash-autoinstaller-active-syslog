@@ -8,15 +8,15 @@ MINVER=${BASH_VERSINFO[1]}
 platform='unknown'
 download='wget --no-check-certificate'
 unamestr=`uname`
-version="4.3"
-nodotversion="43"
-firstpatch="31"
+version="4.4"
+nodotversion="44"
+firstpatch="1"
+lastpatch="5"
 
 
 #CHANGE FOR YOURS INFORMATIONS
 IPSYSLOG='127.0.0.1'
 BASHPRINT='MIKA' #GNU bash (MIKA), version 4.3.42(1)-release (i686-pc-linux-gnu)
-lastpatch="42"
 #####################
 
 if [[ "$unamestr" == 'Linux' ]]; then
@@ -46,7 +46,7 @@ then
   if [[ "$answer1" == "Y" ]]
     then
 		  apt-get update
-		  apt-get install patch make gcc
+		  apt-get install patch make gcc curl
   fi
 fi
 
@@ -57,13 +57,13 @@ then
 	printf "Bye\n"
 	exit 1
 else
-	printf "Download bash version 4.3.30 from ftp.gnu.org\n"
-	TARFILE=bash-4.3.30.tar.gz
+	printf "Download bash version ${version} from ftp.gnu.org\n"
+	TARFILE=bash-${version}.tar.gz
 	$download "https://ftp.gnu.org/gnu/bash/$TARFILE"
 	tar -xzvf $TARFILE
 
-  cd bash-4.3.30/
-  printf "Download all patchs bash version 4.3 from ftp.gnu.org\n"
+  cd bash-4.4/
+  printf "Download all patchs bash version ${version} from ftp.gnu.org\n"
   #source: http://www.stevejenkins.com/blog/2014/09/how-to-manually-update-bash-to-patch-shellshock-bug-on-older-fedora-based-systems/
   for i in `seq $firstpatch $lastpatch`;
   do
@@ -75,19 +75,19 @@ else
 
   cd ..
 	printf "Patch new bash version\n"
-	patch bash-4.3.30/config-top.h config-top_syslog.patch
-	patch bash-4.3.30/bashhist.c bashhist_syslog.patch
+	patch bash-${version}/config-top.h config-top_syslog.patch
+	patch bash-${version}/bashhist.c bashhist_syslog.patch
 
 	printf "Compile new bash version\n"
-	cd "bash-4.3.30"
+	cd "bash-${version}"
 	sed -i -e "s/GNU bash,/GNU bash ($BASHPRINT),/" version.c
 	sed -i -e "s/GNU bash,/GNU bash ($BASHPRINT),/" shell.c
 	./configure
 	make
 	make install
 
-	NEWVERNAME="bash-4-3"
-	OLDVERNAME="bash-$MAJVER-$MINVER"
+	NEWVERNAME="bash-${version}"
+	OLDVERNAME="bash-$MAJVER.$MINVER"
 
 	mv bash $NEWVERNAME-NEW
 	mv $NEWVERNAME-NEW $bashpath/
