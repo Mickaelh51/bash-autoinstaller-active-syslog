@@ -84,7 +84,7 @@ else
 	sed -i -e "s/GNU bash,/GNU bash ($BASHPRINT),/" shell.c
 	./configure
 	make
-	make install
+	#make install
 
 	NEWVERNAME="bash-${version}"
 	OLDVERNAME="bash-$MAJVER.$MINVER"
