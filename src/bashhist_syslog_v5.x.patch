@@ -1,0 +1,25 @@
+--- bash-5.1/bashhist.c.orig	2020-08-17 13:20:40.000000000 +0000
++++ bash-5.1/bashhist.c	2020-12-16 13:20:44.408000000 +0000
+@@ -835,11 +835,11 @@
+       first = 0;
+     }
+ 
+-  hdrlen = snprintf (loghdr, sizeof(loghdr), "HISTORY: PID=%d UID=%d", getpid(), current_user.uid);
++  hdrlen = snprintf (loghdr, sizeof(loghdr), "HISTORY: PID=%d LOGIN=%s", getpid(), getlogin());
+   msglen = strlen (line);
+ 
+   if ((msglen + hdrlen + 1) < SYSLOG_MAXLEN)
+-    syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "%s %s", loghdr, line);
++    syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "%s COMMAND=%s", loghdr, line);
+   else
+     {
+       chunks = ((msglen + hdrlen) / SYSLOG_MAXLEN) + 1;
+@@ -851,7 +851,7 @@
+ 	  /* 7 == "(seq=) " */
+ 	  strncpy (trunc, msg, SYSLOG_MAXLEN - hdrlen - seqlen - 7 - 1);
+ 	  trunc[SYSLOG_MAXLEN - 1] = '\0';
+-	  syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "%s (seq=%s) %s", loghdr, seqnum, trunc);
++	  syslog (SYSLOG_FACILITY|SYSLOG_LEVEL, "%s (seq=%s) COMMAND=%s", loghdr, seqnum, trunc);
+ 	  msg += SYSLOG_MAXLEN - hdrlen - seqlen - 8;
+ 	}
+     }

@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+    #config.vm.box = "debian/jessie64"
+    #config.vm.box = "debian/stretch64"
+    #config.vm.box = "debian/buster64"
+    #config.vm.box = "centos/7"
+    config.vm.box = "centos/8"
+
+    #config.vm.box = "freebsd/FreeBSD-11.0-CURRENT"
+    #config.vm.box = "freebsd/FreeBSD-12.0-CURRENT"
+    #config.ssh.shell = "sh"
+
+
+    # bashdev
+    config.vm.define "bash-dev" do |bashdev|
+        bashdev.vm.hostname = "bash-dev"
+        bashdev.vm.network :private_network, ip: "10.99.0.225"
+    end
+
+    config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", 512]
+        vb.customize ["modifyvm", :id, "--cpus", 1]
+    end
+    
+
+    config.vm.provision "file", source: "../src", destination: "bash-autoinstaller-active-syslog"
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.name = "bash-dev"
+    end
+end

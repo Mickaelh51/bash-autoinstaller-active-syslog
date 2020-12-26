@@ -2,16 +2,19 @@
 
 #!/bin/bash
 
+# Version to install
+version="5.1"
+nodotversion="51"
+firstpatch="1"
+lastpatch="30"
+
 #detect bash version
 MAJVER=${BASH_VERSINFO[0]}
 MINVER=${BASH_VERSINFO[1]}
 platform='unknown'
 download='wget --no-check-certificate'
 unamestr=`uname`
-version="4.4"
-nodotversion="44"
-firstpatch="1"
-lastpatch="5"
+
 
 
 #CHANGE FOR YOURS INFORMATIONS
@@ -36,7 +39,7 @@ elif [[ "$unamestr" == 'FreeBSD' ]]; then
    bashpath="/usr/local/bin"
 fi
 
-printf "System: $platform / Your bash version: ${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]}\n"
+printf "System: $platform / Your bash version: $MAJVER.$MINVER\n"
 
 if [[ "$unamestr" == 'Linux' ]]
 then
@@ -45,8 +48,8 @@ then
 
   if [[ "$answer1" == "Y" ]]
     then
-		  apt-get update
-		  apt-get install patch make gcc curl
+		  apt-get update -qq
+		  apt-get install -y patch make gcc curl
   fi
 fi
 
@@ -62,7 +65,7 @@ else
 	$download "https://ftp.gnu.org/gnu/bash/$TARFILE"
 	tar -xzvf $TARFILE
 
-  cd bash-4.4/
+  cd bash-$version/
   printf "Download all patchs bash version ${version} from ftp.gnu.org\n"
   #source: http://www.stevejenkins.com/blog/2014/09/how-to-manually-update-bash-to-patch-shellshock-bug-on-older-fedora-based-systems/
   for i in `seq $firstpatch $lastpatch`;
@@ -76,7 +79,14 @@ else
   cd ..
 	printf "Patch new bash version\n"
 	patch bash-${version}/config-top.h config-top_syslog.patch
-	patch bash-${version}/bashhist.c bashhist_syslog.patch
+  if [[ "$version" =~ 5.* ]]
+  then
+    printf "Patch for bash version 5.X\n"
+    patch bash-${version}/bashhist.c bashhist_syslog_v5.x.patch
+  else
+    printf "Patch for bash version < 5\n"
+	  patch bash-${version}/bashhist.c bashhist_syslog.patch
+  fi
 
 	printf "Compile new bash version\n"
 	cd "bash-${version}"
