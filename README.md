@@ -1,6 +1,6 @@
 # README #
 
-Installer for patch bash 4.4 (or older bash versions) with syslog module and be able to **show the real username**
+Installer for patch bash 5.X (or older bash versions) with syslog module and be able to **show the real username**
 
 ### What is this repository for? ###
 Active syslog module in bash.
